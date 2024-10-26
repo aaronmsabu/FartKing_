@@ -1,0 +1,253 @@
+<html>
+<head>
+    <title>FartKing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9db;
+            color: #6b4f1d;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 50px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: bounceIn 1s ease-in-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .button {
+            background-color: #e3b23c;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 50px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #d1a32b;
+        }
+        .stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stat-item {
+            background-color: #fff7d1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            width: 80%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+        .stat-item i {
+            font-size: 36px;
+            color: #6b4f1d;
+        }
+        .stat-text {
+            text-align: left;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 16px;
+        }
+        .counter-button {
+            background-color: #e3b23c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+        .counter-button:hover {
+            background-color: #d1a32b;
+        }
+        .fart-emoji {
+            position: absolute;
+            font-size: 24px;
+            animation: floatUp 1s ease-in-out forwards;
+        }
+        @keyframes floatUp {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-50px); }
+        }
+        .badge {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .bronze {
+            color: #cd7f32;
+        }
+        .silver {
+            color: #c0c0c0;
+        }
+        .gold {
+            color: #ffd700;
+        }
+        .levels {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="levels" id="levels">
+            Level: 0
+        </div>
+        <div class="badge" id="achievement-badge"></div>
+        <div class="title">
+            <i class="fas fa-crown"></i> FartKing
+        </div>
+        <div class="subtitle">
+            Become the Ruler of the Royal Gas Kingdom
+        </div>
+        <a href="#" class="button">
+            Start Your Royal Journey <i class="fas fa-arrow-right"></i>
+        </a>
+        <div class="stats">
+            <div class="stat-item">
+                <i class="fas fa-wind"></i>
+                <div class="stat-text">
+                    <div class="stat-number" id="fart-counter">42,071</div>
+                    <div class="stat-label">Total Royal Releases</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-user-friends"></i>
+                <div class="stat-text">
+                    <div class="stat-number">789</div>
+                    <div class="stat-label">Noble Gas Lords</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-trophy"></i>
+                <div class="stat-text">
+                    <div class="stat-number">420</div>
+                    <div class="stat-label">Royal High Score</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-user"></i>
+                <div class="stat-text">
+                    <div class="stat-number" id="personal-fart-counter">0</div>
+                    <div class="stat-label">Your Personal Fart Count</div>
+                </div>
+            </div>
+            <button class="counter-button" onclick="incrementCounter()">
+                <i class="fas fa-wind"></i> Add Fart
+            </button>
+        </div>
+    </div>
+
+    <audio id="fart-sound" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+    <audio id="fart-noise" src="https://www.soundjay.com/human/sounds/fart-01.mp3"></audio>
+
+    <script>
+        let fartCounter = 42071;
+        let personalFartCounter = 0;
+        let level = 0;
+
+        function incrementCounter() {
+            fartCounter++;
+            personalFartCounter++;
+            document.getElementById('fart-counter').innerText = fartCounter.toLocaleString();
+            document.getElementById('personal-fart-counter').innerText = personalFartCounter.toLocaleString();
+            playFartSound();
+            playFartNoise();
+            showFartEmoji();
+            updateBadge();
+            updateLevel();
+        }
+
+        function playFartSound() {
+            const sound = document.getElementById('fart-sound');
+            sound.play();
+        }
+
+        function playFartNoise() {
+            const noise = document.getElementById('fart-noise');
+            noise.play();
+        }
+
+        function showFartEmoji() {
+            const button = document.querySelector('.counter-button');
+            const emoji = document.createElement('div');
+            emoji.classList.add('fart-emoji');
+            emoji.innerText = '💨';
+            button.appendChild(emoji);
+
+            setTimeout(() => {
+                emoji.remove();
+            }, 1000);
+        }
+
+        function updateBadge() {
+            const badge = document.getElementById('achievement-badge');
+            if (personalFartCounter >= 15) {
+                badge.innerText = '🏅 Gold Achiever';
+                badge.className = 'badge gold';
+            } else if (personalFartCounter >= 10) {
+                badge.innerText = '🥈 Silver Achiever';
+                badge.className = 'badge silver';
+            } else if (personalFartCounter >= 5) {
+                badge.innerText = '🥉 Bronze Achiever';
+                badge.className = 'badge bronze';
+            } else {
+                badge.innerText = '';
+                badge.className = 'badge';
+            }
+        }
+
+        function updateLevel() {
+            level = Math.floor(personalFartCounter / 5);
+            document.getElementById('levels').innerText = `Level: ${level}`;
+        }
+    </script>
+</body>
+</html>
